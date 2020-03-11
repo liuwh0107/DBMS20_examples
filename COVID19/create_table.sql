@@ -20,3 +20,21 @@ fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
 ignore 1 lines;
+
+
+create table region_acc(
+    province varchar(50),
+    country varchar(30),
+    data_date date,
+    confirmed_num int,
+    deaths_num int,
+    recovered_num int,
+    primary key (province, country, data_date)
+);
+
+load data local infile './new_accumulate_data.csv'
+into table region_acc
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;
