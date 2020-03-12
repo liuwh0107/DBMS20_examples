@@ -16,4 +16,37 @@ and date_confirmation != '0000-00-00'
 order by date_confirmation asc
 limit 1;
 
--- 近五天內，確診人數成長最多的地方
+-- 2/26~3/3之間，各地區確診人數比例，由大到小排序
+select reg_a.province, reg_a.country, reg_b.confirmed_num as earlier_data,
+reg_a.confirmed_num as later_data, 
+(reg_a.confirmed_num-reg_b.confirmed_num)/reg_b.confirmed_num as increase_ratio
+from region_acc as reg_a, region_acc as reg_b
+where reg_a.province = reg_b.province
+and reg_a.country = reg_b.country
+and reg_a.data_date = '2020-03-03'
+and reg_b.data_date = '2020-02-26'
+order by increase_ratio desc;
+
+-- 資料中，各地區開始有確診案例的日期
+select province, country, min(data_date) as start_date
+from region_acc
+group by province, country
+order by start_date asc;
+
+-- 在3/6時，確診人數比台灣多的地區有幾個，同時顯示有確診案例的地區總共有幾個
+select inner_res.cnt as cnt, count(ra.province) as total_cnt
+from region_acc as ra,
+(
+    select count(ra.province) as cnt
+    from region_acc as ra,
+    (
+        select confirmed_num
+        from region_acc
+        where data_date = '2020-03-06'
+        and province = 'Taiwan'
+        and country = 'Taiwan'
+    ) as new_taiwan_data
+    where ra.data_date = '2020-03-06'
+    and ra.confirmed_num > new_taiwan_data.confirmed_num
+) as inner_res
+where ra.data_date = '2020-03-06';
