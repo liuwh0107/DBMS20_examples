@@ -17,6 +17,8 @@ with open('time.csv', 'r') as f:
     rows = csv.reader(f)
     next(rows)
     for row in rows:
+        if len(row) == 0:
+            continue
         time_list.add(row[0])
 time_list = list(time_list)
 num_time_list = len(time_list)-1
