@@ -50,3 +50,15 @@ from region_acc as ra,
     and ra.confirmed_num > new_taiwan_data.confirmed_num
 ) as inner_res
 where ra.data_date = '2020-03-06';
+
+-- 列出各地區在2/28增加的確診案例個數，數量由大到小排序
+select later_data.province, later_data.country,
+ earlier_data.confirmed_num as earlier_patient_num,
+ later_data.confirmed_num as later_patient_num, 
+ (later_data.confirmed_num-earlier_data.confirmed_num) as new_patient_num
+from region_acc as later_data, region_acc as earlier_data
+where later_data.data_date = '2020-2-28'
+and earlier_data.data_date = '2020-2-27'
+and later_data.province = earlier_data.province
+and later_data.country = earlier_data.country
+order by new_patient_num desc;
