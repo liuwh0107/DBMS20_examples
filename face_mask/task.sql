@@ -37,3 +37,20 @@ FROM
 WHERE lastm.city = firstm.city
 GROUP BY lastm.city
 ORDER BY growth_rate DESC
+
+-- 列出安禾藥局(清大對面)購買口罩最多天前十名
+SELECT DATE(r.get_time) as date, COUNT(*) as customers
+FROM record as r, institute as i
+WHERE r.inst_id = i.inst_id
+AND i.inst_name = '安禾藥局'
+GROUP BY DATE(r.get_time)
+ORDER BY customers DESC
+LIMIT 10
+
+-- 列出領過口罩次數各有多少人
+SELECT record_sum.cnt, SUM(record_sum.cnt) as resident_count
+FROM 
+    (SELECT COUNT(*) as cnt
+    FROM record as r
+    GROUP BY r.id_card) as record_sum
+GROUP BY record_sum.cnt

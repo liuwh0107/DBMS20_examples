@@ -34,10 +34,11 @@ def insert2db(connection, mycursor, file_path):
         connection.commit()
 
 if __name__ == '__main__':
-    dirlist = './maskdata-backup/history'
+    dirlist = '../../maskdata-backup/history'
     transfer_path = 'transfer.csv'
     alldir = os.listdir(dirlist)
-    mycursor, connection = connect2db()
+    # mycursor, connection = connect2db()
+    df_total = pd.DataFrame()
 
     for eachdir in alldir:
         dirname = dirlist + '/' + eachdir
@@ -67,12 +68,13 @@ if __name__ == '__main__':
                     # 02-10-200039 and 02-10-220039 need to change field name in csv
                     if month == '02' and int(day) < 11:
                         df = pd.read_csv(filename)[['醫事機構代碼', '成人口罩總剩餘數', '兒童口罩剩餘數', '來源資料時間']]
+                        df.columns = ['醫事機構代碼', '成人口罩剩餘數', '兒童口罩剩餘數', '來源資料時間']
                     else:
                         df = pd.read_csv(filename)[['醫事機構代碼', '成人口罩剩餘數', '兒童口罩剩餘數', '來源資料時間']]
-                    df.to_csv(transfer_path, index=False)
-                    df = pd.read_csv(transfer_path)
-
-                    insert2db(connection, mycursor, transfer_path)
-
-    mycursor.close()  ## here all loops done
-    connection.close()  ## close db connection
+                    df_total = pd.concat([df_total, df], axis=0, ignore_index=True)
+                    
+                    # df = pd.read_csv(transfer_path)
+                    # insert2db(connection, mycursor, transfer_path)
+    df_total.to_csv(transfer_path, index=False)
+    # mycursor.close()  ## here all loops done
+    # connection.close()  ## close db connection

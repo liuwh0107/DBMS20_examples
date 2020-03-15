@@ -14,6 +14,13 @@ create table institute(
     primary key (inst_id)
 );
 
+create table record(
+    id_card varchar(10),
+    inst_id varchar(15) not null,
+    get_time datetime,
+    primary key (id_card, get_time)
+);
+
 load data local infile './maskdata.csv'
 into table mask
 fields terminated by ','
@@ -30,6 +37,13 @@ ignore 1 lines;
 
 load data local infile './institute.csv'
 into table institute
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 lines;
+
+load data local infile './record.csv'
+into table record
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
