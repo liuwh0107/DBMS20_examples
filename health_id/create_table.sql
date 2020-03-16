@@ -1,5 +1,5 @@
 create table travel_alert(
-    area varchar(50),
+    area varchar(60),
     security_level varchar(20) not null,
     instruction varchar(20) not null,
     primary key (area)
