@@ -9,8 +9,10 @@ create table mask(
 create table institute(
     inst_id varchar(15),
     inst_name varchar(60) not null,
-    inst_addr varchar(60) not null,
     inst_phone varchar(20) not null,
+    inst_addr varchar(60) not null,
+    TGOS_X double,
+    TGOS_Y double,
     primary key (inst_id)
 );
 
