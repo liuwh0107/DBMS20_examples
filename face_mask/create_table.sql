@@ -37,7 +37,7 @@ enclosed by '"'
 lines terminated by '\n'
 ignore 1 lines;
 
-load data local infile './institute.csv'
+load data local infile './institute_tgos.csv'
 into table institute
 fields terminated by ','
 enclosed by '"'
