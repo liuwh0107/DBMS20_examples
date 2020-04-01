@@ -1,8 +1,11 @@
 -- 卻診年齡區間與人數對應
-select if((age mod 10) < 0, 'null', concat(convert((age mod 10)*10, CHAR), '-', convert(((age mod 10)+1)*10-1, CHAR))) as age_range,
- count(*) as cnt
+select if (
+        floor(age/10) < 0, 'null', 
+            concat(convert(floor(age/10)*10, CHAR), '-', convert((floor(age/10)+1)*10-1, CHAR))
+    ) as age_range, count(*) as cnt
 from patient
-group by age mod 10;
+group by floor(age/10);
+
 
 -- 性別與人數對應
 select sex, count(*) as cnt
