@@ -29,10 +29,10 @@ from
         select * from inbound where date = '2020-03-16'
     ) as inbound
     where airport.IATA_code = inbound.IATA_code
-) as airport, user
-where user.PID = airport.PID;
+) as TempAirport, user
+where user.PID = TempAirport.PID;
 --- Solution 2
-select ID
+select user.ID
 from
 (
     select PID
@@ -44,8 +44,8 @@ from
         select * from inbound where date = '2020-03-16'
     ) as inbound
     where airport.IATA_code = inbound.IATA_code
-) as airport, user
-where user.PID = airport.PID;
+) as TempAirport, user
+where user.PID = TempAirport.PID;
 
 -- 3. Find the ID of users who were back from UK or Japan
 --- Solution 1
@@ -69,8 +69,8 @@ from
         select * from airport where country = 'UK'
     ) as airport, inbound
     where airport.IATA_code = inbound.IATA_code
-) as airport, user
-where airport.PID = user.PID
+) as TempAirport, user
+where TempAirport.PID = user.PID
 union
 select user.ID
 from
@@ -80,11 +80,11 @@ from
         select * from airport where country = 'Japan'
     ) as airport, inbound
     where airport.IATA_code = inbound.IATA_code
-) as airport, user
-where airport.PID = user.PID;
+) as TempAirport, user
+where TempAirport.PID = user.PID;
 
 -- 4. Find the PID of users who were in the same plant of one confirmed case with his PID as NQ13219857 on 2020/03/06
-select inbound.PID, inbound.flight_no
+select inbound.PID
 from inbound
 where inbound.flight_no in (
     select flight_no
