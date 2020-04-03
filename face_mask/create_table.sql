@@ -23,13 +23,6 @@ create table record(
     primary key (id_card, get_time)
 );
 
-load data local infile './maskdata.csv'
-into table mask
-fields terminated by ','
-enclosed by '"'
-lines terminated by '\n'
-ignore 1 lines;
-
 load data local infile './transfer.csv'
 into table mask
 fields terminated by ','

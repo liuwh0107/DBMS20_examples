@@ -1,8 +1,3 @@
--- 將藥局地址從高雄縣更新成高雄市
-UPDATE `institute`
-SET inst_addr = REPLACE(inst_addr, '高雄縣', '高雄市')
-WHERE substring(inst_addr, 1, 3) LIKE '高雄縣';
-
 -- 列出2/6(實名制第一天)晚上10點時口罩庫存縣市，根據口罩庫存排序，包含縣市、藥局間數、口罩數
 SELECT substring(i.inst_addr, 1, 3) as city, COUNT(i.inst_id) as inst_num, SUM(m.adult_mask_num)+SUM(m.child_mask_num) as total_mask_num
 FROM mask as m, institute as i
