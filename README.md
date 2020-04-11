@@ -2,10 +2,11 @@
 
 ## Convert database from latin1 to utf8
 
+after create a database
 ```sql
-mysql> ALTER DATABASE _DB\_name_ CHARACTER SET utf8 COLLATE utf8\_general\_ci;
+mysql> ALTER DATABASE DB_name CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 go back to terminal
 ```sql
-$ sudo mysqldump --add-drop-table _DB\_name_ | sed -e 's/CHARSET\=latin1/CHARSET\=utf8\ COLLATE\=utf8_general_ci/g' | iconv -f latin1 -t utf8 | sudo mysql _DB\_name_
+$ sudo mysqldump --add-drop-table _DB_name_ | sed -e 's/CHARSET\=latin1/CHARSET\=utf8\ COLLATE\=utf8_general_ci/g' | iconv -f latin1 -t utf8 | sudo mysql _DB_name_
 ```
